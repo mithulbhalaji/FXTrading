@@ -1,8 +1,15 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FXtrade{
 
     private final List<Transaction> transactions = new ArrayList<>();
@@ -12,8 +19,9 @@ public class FXtrade{
     private static final DecimalFormat decimalFormat = UserInterface.decimalFormat;
     FXtrade(){
         currencyPairs.put("USDINR",66.0);
+
     }
-    public  void bookTrade(Scanner scanner){
+    public  void bookTrade(Scanner scanner) throws IOException {
         //Required Variable declaration
         String customerName;
         String currencyPair;
@@ -21,7 +29,7 @@ public class FXtrade{
 
         //Getting input from user
         System.out.println("Enter your name : ");
-        customerName = getCustomerNameInput(scanner);
+        customerName = getCustomerNameInput();
         System.out.println("Enter your currency pair");
         currencyPair = getCurrencyPairInput(scanner).toUpperCase();
         System.out.println("Enter the amount");
@@ -87,13 +95,14 @@ public class FXtrade{
     }
 
     //Getting name from user and validating it
-    private static String getCustomerNameInput(Scanner scanner){
-        String name = scanner.next();
-        while (!name.matches("^[a-zA-Z][a-zA-Z.]*[a-zA-Z]$" )){
-            System.out.println("Please enter a valid name");
-            name = scanner.next();
+    private static String getCustomerNameInput() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String name = reader.readLine().trim();
+        while (!name.matches("^(?!\\.+$)[A-Za-z. ]+$")){
+            System.out.println("Enter a valid name");
+            name = reader.readLine().trim();
         }
-        scanner.nextLine();
+
         return name;
     }
 
