@@ -1,10 +1,13 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-public class UserInterface {
+public class UserInterface  {
 
     public static final DecimalFormat decimalFormat = new DecimalFormat("#,###,###.00");
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Initializing required objects
         FXtrade fXtrade = new FXtrade();
         Scanner scanner =new Scanner(System.in);
@@ -29,6 +32,7 @@ public class UserInterface {
                 String confirmation = scanner.next();
                 if(confirmation.equalsIgnoreCase("y")){
                     System.out.println("Bye - have a good day");
+                    scanner.close();
                     break;
                 }else if(!confirmation.equalsIgnoreCase("n")){
                     System.out.println("Enter a valid option");
